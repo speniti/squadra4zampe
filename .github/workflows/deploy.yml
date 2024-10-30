@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    environment: production
+
+    steps:
+      - name: Deploy
+        run: |
+          curl -X POST "https://ploi.io/api/servers/${{ vars.SERVER_ID }}/sites/${{ vars.SITE_ID }}/deploy" \
+          -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -H "Accept: application/json"
